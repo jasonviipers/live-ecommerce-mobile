@@ -9,14 +9,27 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to camera for live streaming",
+        "NSMicrophoneUsageDescription": "This app needs access to microphone for live streaming and chat",
+        "NSPhotoLibraryUsageDescription": "This app needs access to photo library to upload images"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET",
+        "android.permission.ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +45,19 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Live Commerce to access your camera for live streaming.",
+          "microphonePermission": "Allow Live Commerce to access your microphone for live streaming and chat.",
+          "recordAudioAndroid": true
+        }
+      ],[
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Live Commerce to access your photo library to upload images."
         }
       ]
     ],
