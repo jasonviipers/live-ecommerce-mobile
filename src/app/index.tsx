@@ -1,6 +1,7 @@
+import { useRouter } from 'expo-router';
+import { useEffect, useRef } from 'react';
 import { View, Text, Animated, StyleSheet } from 'react-native';
 import { colors, radius, spacingX, spacingY } from '@/constants/theme'
-import { useEffect, useRef } from 'react';
 import { fontSize, scale, verticalScale } from '@/constants/styling';
 
 export default function SplashScreen() {
@@ -11,48 +12,53 @@ export default function SplashScreen() {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    // Main logo animation
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 800,
-        useNativeDriver: true,
-      }),
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        tension: 100,
-        friction: 8,
-        useNativeDriver: true,
-      }),
-    ]).start();
+  const router = useRouter();
 
-    // Live indicator animation (delayed)
-    setTimeout(() => {
+  useEffect(() => {
+    // Create a parallel animation group for all animations
+    const animationGroup = Animated.parallel([
+      // Main logo animation
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scaleAnim, {
+          toValue: 1,
+          tension: 100,
+          friction: 8,
+          useNativeDriver: true,
+        }),
+      ]),
+      
+      // Live indicator animation (delayed)
       Animated.timing(liveIndicatorAnim, {
         toValue: 1,
         duration: 600,
+        delay: 500,
         useNativeDriver: true,
-      }).start();
-    }, 500);
-
-    // Tagline animation (more delayed)
-    setTimeout(() => {
+      }),
+      
+      // Tagline animation (more delayed)
       Animated.timing(taglineAnim, {
         toValue: 1,
         duration: 600,
+        delay: 800,
         useNativeDriver: true,
-      }).start();
-    }, 800);
-
-    // Progress bar animation
-    setTimeout(() => {
+      }),
+      
+      // Progress bar animation
       Animated.timing(progressAnim, {
         toValue: 1,
         duration: 2000,
-        useNativeDriver: false, // width animation requires native driver false
-      }).start();
-    }, 500);
+        delay: 500,
+        useNativeDriver: false,
+      }),
+    ]);
+
+    // Start all animations
+    animationGroup.start();
 
     // Continuous pulse animation for live indicator
     const pulseAnimation = Animated.loop(
@@ -70,12 +76,22 @@ export default function SplashScreen() {
       ])
     );
 
-    setTimeout(() => {
+    // Start pulse animation after 1 second
+    const pulseTimeout = setTimeout(() => {
       pulseAnimation.start();
     }, 1000);
 
+    // Set a timeout to navigate after all animations complete
+    const navigateTimeout = setTimeout(() => {
+      router.replace('/(auth)/welcome');
+    }, 3000); 
+
     return () => {
+      // Cleanup
       pulseAnimation.stop();
+      clearTimeout(pulseTimeout);
+      clearTimeout(navigateTimeout);
+      animationGroup.stop();
     };
   }, []);
 
