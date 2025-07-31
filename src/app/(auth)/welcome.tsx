@@ -4,6 +4,7 @@ import { Avatar } from '@/components/Avatar'
 import { colors, spacingY } from '@/constants/theme'
 import { scale } from '@/constants/styling'
 import { ProductCard } from '@/components/ProductCard'
+import { SectionHeader } from '@/components/SectionHeader'
 
 export default function welcome() {
   const handleLike = () => {
@@ -26,6 +27,7 @@ export default function welcome() {
         onPress={handlePress}
         style={{ width: 200, height: 250 }}
       />
+      <SectionHeader title="Popular Products" />
     </View>
   )
 }
