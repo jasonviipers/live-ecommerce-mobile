@@ -48,6 +48,7 @@ export const spacingX = {
     _30: scale(30),
     _35: scale(35),
     _40: scale(40),
+    _60: scale(60),
 };
 
 export const spacingY = {
@@ -64,6 +65,7 @@ export const spacingY = {
     _40: verticalScale(40),
     _50: verticalScale(50),
     _60: verticalScale(60),
+    _80: verticalScale(80)
 };
 
 export const radius = {
