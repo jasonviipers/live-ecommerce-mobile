@@ -83,7 +83,7 @@ export default function SplashScreen() {
 
     // Set a timeout to navigate after all animations complete
     const navigateTimeout = setTimeout(() => {
-      router.replace('/(auth)/welcome');
+      router.replace('/(auth)/login');
     }, 3000); 
 
     return () => {
